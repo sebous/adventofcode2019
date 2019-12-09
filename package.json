@@ -1,0 +1,20 @@
+{
+  "name": "adventofcode",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "lodash": "^4.17.15",
+    "readline-sync": "^1.4.10",
+    "ts-node-dev": "^1.0.0-pre.44"
+  },
+  "devDependencies": {
+    "@types/node": "^12.12.15",
+    "@types/readline-sync": "1.4.3",
+    "@types/lodash": "4.14.108",
+    "typescript": "^3.7.3"
+  },
+  "scripts": {},
+  "author": "",
+  "license": "ISC"
+}
