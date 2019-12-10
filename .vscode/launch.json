@@ -11,7 +11,26 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}/07/07.js"
+            // "program": "${workspaceFolder}/07/07.js"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "ts-node",
+            "args": [
+                "${workspaceRoot}/07/07.ts"
+                // "${workspaceRoot}/intcode.ts"
+            ],
+            "runtimeArgs": [
+                "-r",
+                "ts-node/register"
+            ],
+            "cwd": "${workspaceRoot}",
+            "protocol": "inspector",
+            "internalConsoleOptions": "openOnSessionStart",
+            "env": {
+                "TS_NODE_IGNORE": "false"
+            }
         }
     ]
 }
