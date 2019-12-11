@@ -1,4 +1,4 @@
-type InputFn = () => number;
+type InputFn = () => number | undefined;
 type OutputFn = (op: number) => void;
 
 interface IntcodeComputerResponse {
