@@ -20,13 +20,16 @@ const RELATIVE = 2;
 
 let relativeBase = 0;
 
+/**
+ * recursive version, execution can be paused, use memory optimized version for larger programs
+ */
 export function intcodeComputer(program: number[], currentIndex: number, userInput: InputFn, output: OutputFn): IntcodeComputerResponse {
     const opCode = program[currentIndex]
         .toString()
         .padStart(5, '0')
         .split('')
         .map(Number);
-    console.log(process.memoryUsage());
+    // console.log(process.memoryUsage());
     // console.log(opCode, currentIndex, relativeBase);
 
     if (opCode[4] === 9 && opCode[3] === 9) {
@@ -114,6 +117,9 @@ export function intcodeComputer(program: number[], currentIndex: number, userInp
     throw new Error("Something went wrong." + opCode.join("") + "c: " + currentIndex)
 }
 
+/**
+ * faster then recursive version, execution cannot be paused
+ */
 export function intcodeOptimizedComputer(inputProgram: number[], currentIndex: number, userInput: InputFn, output: OutputFn) {
     const opCode = (program: number[], currentIndex: number) => program[currentIndex]
         .toString()

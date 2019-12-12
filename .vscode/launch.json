@@ -18,13 +18,12 @@
             "request": "launch",
             "name": "ts-node",
             "args": [
-                "${workspaceRoot}/09/09.ts"
+                "${workspaceRoot}/07/07.ts"
                 // "${workspaceRoot}/intcode.ts"
             ],
             "runtimeArgs": [
                 "-r",
                 "ts-node/register",
-                "--max-old-space-size=8192"
             ],
             "cwd": "${workspaceRoot}",
             "protocol": "inspector",
