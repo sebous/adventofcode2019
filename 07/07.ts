@@ -99,7 +99,7 @@ function part2(program: number[]): number {
 }
 
 (async () => {
-    const input: string = await readInputFile(path.join(__dirname + '/data_test.txt'));
+    const input: string = await readInputFile(path.join(__dirname + '/data.txt'));
     const output1 = part1(input);
 
     console.log(output1);
