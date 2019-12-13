@@ -18,7 +18,8 @@
             "request": "launch",
             "name": "ts-node",
             "args": [
-                "${workspaceRoot}/07/07.ts"
+                "${workspaceRoot}/07/07.ts",
+                // "${workspaceRoot}/10/10.ts"
                 // "${workspaceRoot}/intcode.ts"
             ],
             "runtimeArgs": [
