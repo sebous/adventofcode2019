@@ -75,43 +75,43 @@ export function intcodeComputer(program: number[], currentIndex: number, userInp
     if (opCode[4] === 3) {
         const input = userInput()
         if (typeof input === "undefined") {
-            return { program: [...program], currentIndex, isHalted: false, isPaused: true }
+            return { program: program, currentIndex, isHalted: false, isPaused: true }
         }
 
         program[thirdParam] = input
 
-        return intcodeComputer([...program], currentIndex + 2, userInput, output)
+        return intcodeComputer(program, currentIndex + 2, userInput, output)
     }
 
     if (opCode[4] === 4) {
         const op = getParam(0);
         output(op);
-        return intcodeComputer([...program], currentIndex + 2, userInput, output);
+        return intcodeComputer(program, currentIndex + 2, userInput, output);
     }
 
     if (opCode[4] === 5) {
         const nextIndex = getParam(0) !== 0 ? getParam(1) : currentIndex + 3;
-        return intcodeComputer([...program], nextIndex, userInput, output);
+        return intcodeComputer(program, nextIndex, userInput, output);
     }
 
     if (opCode[4] === 6) {
         const nextIndex = getParam(0) === 0 ? getParam(1) : currentIndex + 3;
-        return intcodeComputer([...program], nextIndex, userInput, output);
+        return intcodeComputer(program, nextIndex, userInput, output);
     }
 
     if (opCode[4] === 7) {
         program[thirdParam] = getParam(0) < getParam(1) ? 1 : 0;
-        return intcodeComputer([...program], currentIndex + 4, userInput, output);
+        return intcodeComputer(program, currentIndex + 4, userInput, output);
     }
 
     if (opCode[4] === 8) {
         program[thirdParam] = getParam(0) === getParam(1) ? 1 : 0;
-        return intcodeComputer([...program], currentIndex + 4, userInput, output);
+        return intcodeComputer(program, currentIndex + 4, userInput, output);
     }
 
     if (opCode[4] === 9 && opCode[3] === 0) {
         relativeBase += getParam(0);
-        return intcodeComputer([...program], currentIndex + 2, userInput, output);
+        return intcodeComputer(program, currentIndex + 2, userInput, output);
     }
 
     throw new Error("Something went wrong." + opCode.join("") + "c: " + currentIndex)
