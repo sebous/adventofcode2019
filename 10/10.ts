@@ -7,6 +7,12 @@ interface Coords {
     y: number;
 }
 
+interface Vector2d {
+    x: number;
+    y: number;
+    magnitude: number;
+}
+
 interface Position extends Coords {
     distance: number;
     angle: number;
@@ -48,14 +54,28 @@ function distance(A: Coords, B: Coords) {
     return Math.sqrt(Math.pow(B.x - A.x, 2) + Math.pow(B.y - A.y, 2));
 }
 
-function calculateAngle(target: string, center: string) {
-    const targetCoords = getCoords(target);
-    const centerCoords = getCoords(center);
+function getVector(start: string, end: string): Vector2d {
+    const startC = getCoords(start);
+    const endC = getCoords(end);
+    const magnitude = Math.sqrt(Math.pow(endC.x - startC.x, 2) + Math.pow(endC.y - startC.y, 2));
+    return {
+        x: endC.x - startC.x,
+        y: endC.y - startC.y,
+        magnitude,
+    };
+}
 
-    const longSide = Math.sqrt(Math.pow(targetCoords.x - centerCoords.x, 2) + Math.pow(targetCoords.y - centerCoords.y, 2));
-    const angleAlpha = targetCoords.x / longSide;
-    const degrees = angleAlpha * (180 / Math.PI);
-    return degrees;
+function angle2d(U: Vector2d, V: Vector2d) {
+    const dotProduct = U.x * V.x + U.y * V.y;
+    return Math.acos(dotProduct / (U.magnitude * V.magnitude)) * (180 / Math.PI);
+}
+
+function calculateAngle(base: Vector2d, target: Vector2d) {
+    let angle = angle2d(base, target);
+    if (target.x === base.x) return 0;
+    if (target.x > base.x) return angle;
+    if (target.x < base.x) return 360 - angle;
+    throw new Error('wrong input');
 }
 
 function createSpace(rawMapData: string): Space {
@@ -99,7 +119,7 @@ function partTwo(space: Space, [stationCoords, asteroidCount]: [string, number])
             x: getCoords(coord).x,
             y: getCoords(coord).y,
             distance: distance(getCoords(stationCoords), getCoords(coord)),
-            angle: calculateAngle(coord, stationCoords),
+            // angle: calculateAngle(coord, stationCoords),
         }));
 
     const asteroidMap: SpacePositionMap = {};
@@ -144,10 +164,14 @@ function partTwo(space: Space, [stationCoords, asteroidCount]: [string, number])
 
 
 function tests() {
-    const B = '1,0';
-    const A = '3,4';
+    // const B = '1,0';
+    // const A = '3,4';
 
-    console.log(isBetween('2,2', '1,0', '3,4'));
-    console.log(isBetween('3,2', '1,0', '4,3'));
+    // console.log(isBetween('2,2', '1,0', '3,4'));
+    // console.log(isBetween('3,2', '1,0', '4,3'));
 
+    const u = getVector('2,2', '2,0')
+    const v = getVector('2,2', '0,2');
+    const angle = calculateAngle(u, v);
+    console.log(angle);
 }
