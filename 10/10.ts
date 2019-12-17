@@ -16,6 +16,7 @@ interface Vector2d {
 interface Position extends Coords {
     distance: number;
     angle: number;
+    vector: Vector2d;
 }
 
 interface Space {
@@ -112,19 +113,27 @@ function partOne(space: Space) {
 }
 
 function partTwo(space: Space, [stationCoords, asteroidCount]: [string, number]) {
+    const abstractCoords = getCoords(stationCoords);
+    abstractCoords.y -= 1;
+    const baseVector = getVector(stationCoords, coord(abstractCoords.x, abstractCoords.y));
     const asteroids = Object.entries(space.map)
         .filter(([coord, point]) => point === Point.ASTEROID)
         .filter(([coord]) => coord !== stationCoords)
-        .map(([coord]) => (<Position>{
-            x: getCoords(coord).x,
-            y: getCoords(coord).y,
-            distance: distance(getCoords(stationCoords), getCoords(coord)),
-            // angle: calculateAngle(coord, stationCoords),
-        }));
+        .map(([coord]) => {
+            const vector = getVector(stationCoords, coord);
+            const position: Position = {
+                x: getCoords(coord).x,
+                y: getCoords(coord).y,
+                distance: distance(getCoords(stationCoords), getCoords(coord)),
+                vector,
+                angle: calculateAngle(baseVector, vector),
+            }
+            return position;
+        });
 
     const asteroidMap: SpacePositionMap = {};
     asteroids.forEach(ast => asteroidMap[`${ast.x}, ${ast.y}`] = ast);
-    console.log(asteroidMap);
+    // console.log(asteroidMap);
 
     let asteroidCounter = 1;
     let currentAngle = 0;
@@ -134,22 +143,25 @@ function partTwo(space: Space, [stationCoords, asteroidCount]: [string, number])
 
         if (!closestTarget) throw new Error('wrong next target calculation');
 
-        // console.log(`fire in the hole: ${closestTarget[0]}, count: ${asteroidCounter}`);
+        console.log(`fire in the hole: ${closestTarget[0]}, count: ${asteroidCounter}`);
+
         delete asteroidMap[closestTarget[0]];
         asteroidCounter += 1;
 
         // find next target angle
         const remainingTargets = Object.entries(asteroidMap);
-        const nextAsteroid = _.minBy(remainingTargets, (([coord, pos]) => {
-            // if nothing left under 360deg, find first in next round
-            if (!remainingTargets.some(([coord, pos]) => pos.angle > currentAngle)) {
-                return pos.angle;
-            }
-            // get closest angle
-            return pos.angle - currentAngle;
-        }));
-        if (!nextAsteroid) throw new Error('no asteroids left??');
-
+        let nextAsteroid: [string, Position]
+        const remainingOtherAngleTargets = remainingTargets.filter(([coord, pos]) => pos.angle > currentAngle);
+        // if nothing left under 360deg, find first in next round
+        if (remainingOtherAngleTargets.length === 0) {
+            const firstTarget = _.minBy(remainingTargets, (([coord, pos]) => pos.angle));
+            if (!firstTarget) throw new Error('no asteroids left ??');
+            nextAsteroid = firstTarget;
+        } else {
+            const firstClosestTarget = _.minBy(remainingOtherAngleTargets, (([coord, pos]) => pos.angle));
+            if (!firstClosestTarget) throw new Error('something very wrong here');
+            nextAsteroid = firstClosestTarget;
+        }
         currentAngle = nextAsteroid[1].angle;
     }
 }
