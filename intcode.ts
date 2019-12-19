@@ -129,7 +129,7 @@ export function intcodeOptimizedComputer(inputProgram: number[], currentIndex: n
     // console.log(process.memoryUsage());
     // console.log(opCode, currentIndex, relativeBase);
 
-    const is99 = (op: number[]) => op[4] === 9 && op[3] === 3;
+    const is99 = (op: number[]) => op[4] === 9 && op[3] === 9;
 
     let state: IntcodeComputerState = {
         program: [...inputProgram],
@@ -139,6 +139,10 @@ export function intcodeOptimizedComputer(inputProgram: number[], currentIndex: n
 
     while (!is99(opCode(state.program, state.currentIndex))) {
         const { currentIndex, program, relativeBase } = state;
+        if (currentIndex === 298) {
+            console.log(currentIndex);
+        }
+        // console.log(currentIndex);
 
         const op = opCode(program, currentIndex);
         const modes = [
@@ -177,7 +181,7 @@ export function intcodeOptimizedComputer(inputProgram: number[], currentIndex: n
 
         if (op[4] === 3) {
             const input = userInput()
-            if (!input) return;
+            if (typeof input === 'undefined' || input === null) return;
             state.program[thirdParam] = input
             state.currentIndex += 2;
         }

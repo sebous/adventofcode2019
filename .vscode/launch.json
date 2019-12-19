@@ -11,7 +11,7 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            // "program": "${workspaceFolder}/07/07.js"
+            "program": "${workspaceFolder}/dist/11/11.js"
         },
         {
             "type": "node",
@@ -19,7 +19,7 @@
             "name": "ts-node",
             "args": [
                 // "${workspaceRoot}/07/07.ts",
-                "${workspaceRoot}/10/10.ts"
+                "${workspaceRoot}/11/11.ts"
                 // "${workspaceRoot}/intcode.ts"
             ],
             "runtimeArgs": [
@@ -31,7 +31,11 @@
             "internalConsoleOptions": "openOnSessionStart",
             "env": {
                 "TS_NODE_IGNORE": "false"
-            }
+            },
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "outputCapture": "std"
         }
     ]
 }

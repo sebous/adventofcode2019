@@ -112,6 +112,7 @@ function partOne(space: Space) {
     return bestCandidate;
 }
 
+// this only semiworks, there is some count mistake present
 function partTwo(space: Space, [stationCoords, asteroidCount]: [string, number]) {
     const abstractCoords = getCoords(stationCoords);
     abstractCoords.y -= 1;
