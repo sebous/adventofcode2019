@@ -100,12 +100,12 @@ function partOne(program: number[]) {
                         grid[currentPosition].painted = true;
                     }
                 } else {
-                    const nexPixel = defaultPixel();
+                    const nextPixel = defaultPixel();
                     if (output === Color.WHITE) {
-                        nexPixel.color = output;
-                        nexPixel.painted = true;
+                        nextPixel.color = output;
+                        nextPixel.painted = true;
                     }
-                    grid[currentPosition] = nexPixel;
+                    grid[currentPosition] = nextPixel;
                 }
             } else {
                 currentDirection = nextDirection(currentDirection, output);
